@@ -1,28 +1,12 @@
-const qntd = parseInt(prompt('qual a quantidade de cartas (par, entre 4 e 14)'));
+let qntd = parseInt(prompt('qual a quantidade de cartas (par, entre 4 e 14)'));
 let contador = 0;
 let timer = 0;
-// ||
-// while (quantidade < 4 && quantidade > 14 && par !== 0) {
-//     console.log(quantidade);
-//     let par = quantidade%2;
-//     let quantidade = parseInt(prompt('escolha a quantidade de cartas ~ 4 a 14 que seja par'));
-//     alert('escolha novamente');
-// }
+let par = qntd%2;
 
-
-
-// if (par === 0) {
-//     alert('Você escolheu um número par');
-// } else {
-//     alert('você escolheu uma quantidade inválida');
-// }
-
-// const comparador1 = document.querySelector('.carta1').lastElementChild;
-// const comparador2 = document.querySelector('.carta3').lastElementChild;
-// console.log(comparador1);
-// console.log(comparador2);
-
-
+while (qntd < 4 || qntd > 14 || par !== 0) {
+     par = qntd%2;
+     qntd = parseInt(prompt('escolha a quantidade de cartas ~ 4 a 14 que seja par'));
+}
 
 
 const cards = ['carta1', 'carta1', 'carta2', 'carta2', 'carta3', 'carta3', 'carta4', 'carta4', 'carta5', 'carta5', 'carta6', 'carta6', 'carta7', 'carta7'];
@@ -38,34 +22,49 @@ for (let i = 0; i < qntd; i++) {
 cartas.sort(embaralhar);
 
 
-
-function iniciarCartas() {
+ function iniciarCartas() {
 
     for (let i = 0; i < qntd; i++) {
-        let elemento = document.querySelector('.conteudo');
-        elemento.innerHTML = elemento.innerHTML +
+         let elemento = document.querySelector('.conteudo');
+         elemento.innerHTML = elemento.innerHTML +
             `<div class="carta ${cartas[i]} " onclick="virarCarta(this);setTimeout(compararCartas, 1000, '${cartas[i]}')" >
-            <img class='costas'   src="assets/imgs/front.png" alt="">
+             <img class='costas'   src="assets/imgs/front.png" alt="">
             <img class='frente'  src="assets/imgs/${cartas[i]}.gif" alt="">
-        </div>
+         </div>
         `
-    }
+     }
 }
 
 iniciarCartas();
 
-const idInterval = setInterval(fimJogo, 100);
+let idInterval;
 
 function virarCarta(elemento) {
     elemento.firstElementChild.classList.add('esconder');
     elemento.lastElementChild.classList.add('mostrar');
     contador++;
+    if (contador === 1) {
+
+        idInterval = setInterval(fimJogo, 100);
+    }
 
 }
 
 let array = [];
 function compararCartas(parametro) {
     array.push(`.${parametro}`);
+
+
+    /* const card1 = document.querySelector(`${array[0]}`);
+    const card2 = document.querySelector(`${array[1]}`);
+    card1.classList.add('.virada');
+    card2.classList.add('.virada2');
+    const lista = card1.classList.contains('.virada2'); 
+
+    if (lista === true || lista2 === true) {
+        array.pop();
+    } */
+
     if (array.length === 2) {
         if (array[0] === array[1]) {
             const element = document.querySelectorAll(`${array[0]}`);
@@ -101,14 +100,16 @@ function compararCartas(parametro) {
 
 }
 
-function fimJogo () {
+function fimJogo() {
     timer = timer + 0.1;
+    const divTimer = document.querySelector('.timer');
+    divTimer.innerHTML = timer.toFixed(1);
     const cartasCertas = document.querySelectorAll('.mostrar1');
     if (cartasCertas.length === cartas.length) {
-        alert (`fim de jogo. ${contador} jogadas e ${timer.toFixed(1)} segundos!` );
-
         clearInterval(idInterval);
+        alert(`Você ganhou em ${contador} jogadas e ${timer.toFixed(1)-0.1} segundos!`);
     }
+    
 }
 
 function embaralhar() {
