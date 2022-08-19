@@ -15,7 +15,6 @@ header {
     margin-left: 15%;
     margin-right: 15%;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;;
 }
 .titulo {
@@ -50,13 +49,18 @@ img {
     display: none;
 }
 
-.mostrar {
+.mostrar, .mostrar1 {
     display: initial;
 }
-.esconder {
+
+.esconder, .esconder1 {
     display: none;
 }
 
 .selecionado {
     border: 10px solid cyan;
+}
+
+.selecionado1 {
+   background-color: blue;
 }
