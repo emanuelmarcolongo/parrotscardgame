@@ -11,16 +11,26 @@ header {
 }
 
 .timer {
+    width: 50px;
+    height: 50px;
+    background-color: #75B79E;
     position: absolute; 
-    top: 10%;
-    right: 10%;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
 }
 
 .conteudo {
     margin-left: 10%;
     margin-right: 10%;
     display: flex;
-    flex-wrap: wrap;;
+    flex-wrap: wrap;
+    
 }
 
 .titulo {
@@ -42,7 +52,7 @@ header {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    margin: 2% 2%;
+    margin: 3% 3%;
     
 }
 
@@ -85,7 +95,7 @@ img {
     }
 
     .timer {
-        top: 15%;
-        right: 5%;
+        top: 0;
+        right: 0;
     }
 }

@@ -1,11 +1,15 @@
-let qntd = parseInt(prompt('qual a quantidade de cartas (par, entre 4 e 14)'));
+let qntd;
+qntd = parseInt(prompt(
+    `Escolha a quantidade de 4 a 14 cartas:
+    Número par`));
 let contador = 0;
 let timer = 0;
-let par = qntd%2;
+let par = qntd % 2;
 
 while (qntd < 4 || qntd > 14 || par !== 0) {
-     par = qntd%2;
-     qntd = parseInt(prompt('escolha a quantidade de cartas ~ 4 a 14 que seja par'));
+    par = qntd % 2;
+    qntd = parseInt(prompt(`Escolha a quantidade de 4 a 14 cartas:
+     Número par`));
 }
 
 
@@ -22,51 +26,57 @@ for (let i = 0; i < qntd; i++) {
 cartas.sort(embaralhar);
 
 
- function iniciarCartas() {
+function iniciarCartas() {
+
+    let elemento = document.querySelector('.conteudo');
+    elemento.innerHTML = '';
 
     for (let i = 0; i < qntd; i++) {
-         let elemento = document.querySelector('.conteudo');
-         elemento.innerHTML = elemento.innerHTML +
-            `<div class="carta ${cartas[i]} " onclick="virarCarta(this);setTimeout(compararCartas, 1000, '${cartas[i]}')" >
+        elemento.innerHTML = elemento.innerHTML +
+            `<div class="carta ${cartas[i]} ${[i]}" onclick="virarCarta(this);setTimeout(compararCartas, 1000, '${cartas[i]}', '${[i]}')" >
              <img class='costas'   src="assets/imgs/front.png" alt="">
             <img class='frente'  src="assets/imgs/${cartas[i]}.gif" alt="">
          </div>
         `
-     }
+    }
 }
+
 
 iniciarCartas();
 
 let idInterval;
 
+let lista = [];
 function virarCarta(elemento) {
-    elemento.firstElementChild.classList.add('esconder');
-    elemento.lastElementChild.classList.add('mostrar');
+        elemento.firstElementChild.classList.add('esconder');
+        elemento.lastElementChild.classList.add('mostrar');
+    
     contador++;
-    if (contador === 1) {
 
+    // aqui faz com que o timer só inicie após virar a primeira carta :
+    if (contador === 1) {
         idInterval = setInterval(fimJogo, 100);
     }
 
 }
 
+
+let ar = [];
 let array = [];
-function compararCartas(parametro) {
+
+
+function compararCartas(parametro, indice) {
     array.push(`.${parametro}`);
+    ar.push(`.${indice}`);
+    console.log(ar);
 
-
-    /* const card1 = document.querySelector(`${array[0]}`);
-    const card2 = document.querySelector(`${array[1]}`);
-    card1.classList.add('.virada');
-    card2.classList.add('.virada2');
-    const lista = card1.classList.contains('.virada2'); 
-
-    if (lista === true || lista2 === true) {
-        array.pop();
-    } */
-
+    if (array.length >= 3 || ar.length >= 3) {
+        ar = [];
+        array = [];
+    }
     if (array.length === 2) {
-        if (array[0] === array[1]) {
+        // && ar[0] !== ar[1]
+        if (array[0] === array[1] && ar[0] !== ar[1]) {
             const element = document.querySelectorAll(`${array[0]}`);
             element[0].classList.add('selecionado', 'selecionado1');
             element[1].classList.add('selecionado', 'selecionado1');
@@ -79,7 +89,15 @@ function compararCartas(parametro) {
             element[1].firstElementChild.classList.remove('esconder');
             element[1].lastElementChild.classList.remove('mostrar');
             array = [];
-        } else if (array[0] !== array[1]) {
+            ar = [];
+        }
+
+        else if (ar[0] === ar[1]) {
+            ar.pop();
+            array.pop();
+        }
+        // || ar[0] === ar[1]
+        else if (array[0] !== array[1]) {
             const element1 = document.querySelectorAll(`${array[0]}`);
             const element2 = document.querySelectorAll(`${array[1]}`);
             element1[0].firstElementChild.classList.remove('esconder');
@@ -91,25 +109,28 @@ function compararCartas(parametro) {
             element2[1].firstElementChild.classList.remove('esconder');
             element2[1].lastElementChild.classList.remove('mostrar');
             array = [];
-
-
+            ar = [];
         }
+
     }
     // AO CLICAR PEGA A CLASSE DA CARTA (CARTA 1, CARTA 2 ETC). PUXAR AS CLASSES COM ARRAY E COMPARAR SE ARRAY[0] === ARRAY[1]
     //  SE FOR FAZER UM TCHUM E DPS RESETAR TUDO JUNTO COM A FUNÇÃO VIRAR CARTA
 
 }
 
+
 function fimJogo() {
     timer = timer + 0.1;
     const divTimer = document.querySelector('.timer');
-    divTimer.innerHTML = timer.toFixed(1);
-    const cartasCertas = document.querySelectorAll('.mostrar1');
+    divTimer.innerHTML = timer.toFixed(0);
+
+    cartasCertas = document.querySelectorAll('.mostrar1');
     if (cartasCertas.length === cartas.length) {
         clearInterval(idInterval);
-        alert(`Você ganhou em ${contador} jogadas e ${timer.toFixed(1)-0.1} segundos!`);
+        alert(`Você ganhou em ${contador} jogadas e ${timer.toFixed(0)} segundos!
+Recarregue a página para jogar novamente`);
+
     }
-    
 }
 
 function embaralhar() {
